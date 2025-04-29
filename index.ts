@@ -1,5 +1,4 @@
 import * as dotenv from "dotenv";
-// const { tavily } = require('@tavily/core');
 import { tavily } from '@tavily/core';
 dotenv.config();
 const tavilyApiKey = process.env.TAVILY_API_KEY;
@@ -37,7 +36,7 @@ async function deepSeekFunctionCalling(userInput: string) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${apiKey}` // 注意：前端暴露 API KEY 不安全，建议通过后端代理
+                "Authorization": `Bearer ${apiKey}`
             },
             body: JSON.stringify({
                 model: "deepseek-chat",
@@ -57,6 +56,7 @@ async function deepSeekFunctionCalling(userInput: string) {
 
         const data = await response.json();
         const toolCall = data.choices[0].message.tool_calls?.[0];
+        console.log("🚀 ~ file: index.ts:60 ~ toolCall:", toolCall)
 
         // 2. 处理 Function Calling 响应
         if (toolCall) {
